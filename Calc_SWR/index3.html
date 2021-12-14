@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Калькулятор КСВ</title>
+
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script type="text/javascript">
+        var var_SWR = NaN;
+        var var_KU = NaN;
+        var var_RL = NaN;
+        var var_DL = NaN;
+
+        function readFloat(id) {
+            var new_var = document.getElementById(id).value.replace(',', '.');
+            return new_var;
+        }
+
+        function write_answer(id, text) {
+            document.getElementById(id).value = text;
+        }
+
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            padding-top: 100px;
+            text-align: center;
+        }
+        
+        .container_header {
+            margin-bottom: 15px;
+            font-size: 28px;
+            line-height: 1.23;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: content-box;
+        }
+        
+        .content {
+            padding-top: 10px;
+            padding-left: 20%;
+            padding-right: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        
+        .card_button {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        /* div {
+            border: 1px solid rgb(0, 14, 3);
+        } */
+        
+        #button_calc {
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            letter-spacing: 0.04em;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #FFFFFF;
+            background: #000000;
+            box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+            padding: 10px 40px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        #button_refr {
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            letter-spacing: 0.04em;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #FFFFFF;
+            background: #000000;
+            box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+            padding: 10px 40px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        .text {
+            text-align: center;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            width: 150px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+        
+        .description {
+            text-align: left;
+            border-width: 0px 0px 1px 0px;
+            border-color: #000000;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 500;
+            color: #000;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+        
+        input {
+            text-align: center;
+            padding: 20px;
+            vertical-align: top;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            width: 100px;
+            font-size: 18px;
+            line-height: 1.45;
+        }
+        
+        .title_field {
+            display: flex;
+            align-items: center;
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+        
+        .input_field {
+            display: flex;
+            align-items: center;
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container_header">
+            <h1 class="header">Расчет КСВН и потерь</h1>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">КСВн</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="SWR">
+                    <script>
+                        document.getElementById("SWR").addEventListener("input", myFunctionSWR);
+                        function myFunctionSWR() {
+                            var_SWR = readFloat("SWR");
+                            if (!isNaN(parseFloat(var_SWR))) {
+                                if (parseFloat(var_SWR) < 1) {
+                                    write_answer("SWR", "");
+                                    write_answer("KU", "");
+                                    write_answer("RL", "");
+                                    write_answer("DL", "");
+                                } else if (parseFloat(var_SWR) == 1) {
+                                    write_answer("KU", 0);
+                                    write_answer("RL", "- \u221E");
+                                    write_answer("DL", 0);
+                                } else {
+                                    var_KU = (parseFloat(var_SWR) - 1) / (parseFloat(var_SWR) + 1);
+                                    var_RL = 20 * Math.log10(var_KU);
+                                    var_DL = 10 * Math.log10(1 - var_KU * var_KU);
+                                    write_answer("KU", Math.round(var_KU * 1000) / 1000);
+                                    write_answer("RL", Math.round(var_RL * 1000) / 1000);
+                                    write_answer("DL", Math.round(var_DL * 1000) / 1000);
+                                }
+                            } else {
+                                if (var_SWR == '-'){
+                                    write_answer("SWR", "-");
+                                } else if (var_SWR == '.') {
+                                    write_answer("SWR", "0.");
+                                } else {
+                                    write_answer("SWR", "");
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Коэф.Отражения</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KU">
+                    <script>
+                        document.getElementById("KU").addEventListener("input", myFunctionKU);
+                        function myFunctionKU() {
+                            var_KU = readFloat("KU");
+                            if (!isNaN(parseFloat(var_KU))) {
+                                if (((parseFloat(var_KU)) > 1) || ((parseFloat(var_KU)) < 0)) {
+                                    write_answer("SWR", "");
+                                    write_answer("KU", "");
+                                    write_answer("RL", "");
+                                    write_answer("DL", "");
+                                } else if ((parseFloat(var_KU)) == 0) {
+                                    write_answer("SWR", 1);
+                                    write_answer("RL", "- \u221E");
+                                    write_answer("DL", 0);
+                                } else if (parseFloat(var_KU) == 1) {
+                                    write_answer("SWR", "\u221E");
+                                    write_answer("RL", 0);
+                                    write_answer("DL", "- \u221E");
+                                } else if ((parseFloat(var_KU) < 1) && (parseFloat(var_KU) > 0)) {
+                                    var_SWR = (1 + parseFloat(var_KU)) / (1 - parseFloat(var_KU));
+                                    var_RL = 20 * Math.log10(parseFloat(var_KU));
+                                    var_DL = 10 * Math.log10(1 - parseFloat(var_KU) * parseFloat(var_KU));
+                                    write_answer("SWR", Math.round(var_SWR * 1000) / 1000);
+                                    write_answer("RL", Math.round(var_RL * 1000) / 1000);
+                                    write_answer("DL", Math.round(var_DL * 1000) / 1000);
+                                }
+                            } else {
+                                if (var_KU == '-'){
+                                    write_answer("KU", "-");
+                                } else if (var_KU == '.') {
+                                    write_answer("KU", "0.");
+                                } else {
+                                    write_answer("KU", "");
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Возвратные потери, [дБ]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="RL">
+                    <script>
+                        document.getElementById("RL").addEventListener("input", myFunctionRL);
+                        function myFunctionRL() {
+                            var_RL = readFloat("RL");
+                            if (!isNaN(parseFloat(var_RL))) {
+                                if (parseFloat(var_RL) > 0) {
+                                    write_answer("SWR", "");
+                                    write_answer("KU", "");
+                                    write_answer("RL", "");
+                                    write_answer("DL", "");
+                                } else if (parseFloat(var_RL) == 0) {
+                                    write_answer("SWR", "\u221E");
+                                    write_answer("KU", 1);
+                                    write_answer("DL", "- \u221E");
+                                } else if (parseFloat(var_RL) < 0) {
+                                    var_KU = Math.pow(10, parseFloat(var_RL) / 20);
+                                    var_SWR = (1 + var_KU) / (1 - var_KU);
+                                    var_DL = 10 * Math.log10(1 - var_KU * var_KU);
+                                    write_answer("SWR", Math.round(var_SWR * 1000) / 1000);
+                                    write_answer("KU", Math.round(var_KU * 1000) / 1000);
+                                    write_answer("DL", Math.round(var_DL * 1000) / 1000);
+                                }
+                            } else {
+                                if (var_RL == '-'){
+                                    write_answer("RL", "-");
+                                } else if (var_RL == '.') {
+                                    write_answer("RL", "0.");
+                                } else {
+                                    write_answer("RL", "");
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Прямые потери, [дБ]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DL">
+                    <script>
+                        document.getElementById("DL").addEventListener("input", myFunctionDL);
+                        function myFunctionDL() {
+                            var_DL = readFloat("DL");
+                            if (!isNaN(parseFloat(var_DL))) {
+                                if (parseFloat(var_DL) > 0) {
+                                    write_answer("SWR", "НЕКОРРЕКТНЫЙ ВВОД!");
+                                    write_answer("KU", "НЕКОРРЕКТНЫЙ ВВОД!");
+                                    write_answer("RL", "НЕКОРРЕКТНЫЙ ВВОД!");
+                                    write_answer("DL", "НЕКОРРЕКТНЫЙ ВВОД!");
+                                } else if (parseFloat(var_DL) == 0) {
+                                    write_answer("KU", 0);
+                                    write_answer("RL", "- \u221E");
+                                    write_answer("SWR", 1);
+                                } else if (parseFloat(var_DL) < 0) {
+                                    var_KU = Math.sqrt(1 - Math.pow(10, parseFloat(var_DL) / 10));
+                                    var_SWR = (1 + var_KU) / (1 - var_KU);
+                                    var_RL = 20 * Math.log10(var_KU);
+                                    write_answer("SWR", Math.round(var_SWR * 1000) / 1000);
+                                    write_answer("KU", Math.round(var_KU * 1000) / 1000);
+                                    write_answer("RL", Math.round(var_RL * 1000) / 1000);
+                                }
+                            } else {
+                                if (var_DL == '-'){
+                                    write_answer("DL", "-");
+                                } else if (var_SWR == '.') {
+                                    write_answer("DL", "0.");
+                                } else {
+                                    write_answer("DL", "");
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

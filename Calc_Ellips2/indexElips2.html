@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Калькулятор Эллиптичности</title>
+    <script type="text/javascript">
+
+        var AAmp = NaN;
+        var AdB = NaN;
+        var BAmp = NaN;
+        var BdB = NaN;
+        var Phi = NaN;
+        var Phi2 = NaN;
+
+        function readFloat(id) {
+            var new_var = document.getElementById(id).value.replace(',', '.');
+            return new_var;
+        }
+        function write_answer(id, text) {
+            document.getElementById(id).value = text;
+        }     
+    </script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        padding-top: 40px;
+        text-align: center;
+    }
+    
+    .container_header {
+        margin-bottom: 15px;
+        font-size: 28px;
+        line-height: 1.23;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: content-box;
+    }
+    
+    .content {
+        padding-top: 10px;
+        padding-left: 20%;
+        padding-right: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    /* div {
+        border: 1px solid rgb(0, 14, 3);
+    } */
+
+    .card {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+    }
+    
+    .card_button {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #button_calc {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    #button_refr {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .text {
+        text-align: center;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 160px;
+        font-size: 16px;
+        line-height: 1.45;
+    }
+    
+    .description {
+        text-align: left;
+        border-width: 0px 0px 1px 0px;
+        border-color: #000000;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 500;
+        color: #000;
+        font-size: 16px;
+        line-height: 1.45;
+    }
+    
+    input {
+        text-align: center;
+        padding: 16px;
+        vertical-align: top;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 95px;
+        font-size: 20px;
+        line-height: 1.45;
+    }
+    
+    .title_field {
+        display: flex;
+        align-items: center;
+        margin-left: 200px;
+        margin-right: 14px;
+    }
+    
+    .input_field {
+        display: flex;
+        align-items: center;
+        margin-left: 14px;
+        margin-right: 14px;
+    }
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container_header">
+            <h1 class="header">Расчет Эллиптичности и поляризационной развязки</h1>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">A</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="AAmp">
+                    <script>
+                        document.getElementById("AAmp").addEventListener("input", myFunctionAAmp);
+                        function myFunctionAAmp() {
+                            AAmp = readFloat("AAmp");
+                            if (!isNaN(parseFloat(AAmp))){
+                                Phi = readFloat("Phi");
+                                BAmp = readFloat("BAmp");
+
+                                if ((parseFloat(AAmp)<=1) && (parseFloat(AAmp)>0)){
+                                    if (!isNaN(parseFloat(BAmp))){
+                                        if (parseFloat(AAmp)*parseFloat(AAmp) + parseFloat(BAmp)*parseFloat(BAmp) <1) {
+                                            AdB = 20*Math.log10(parseFloat(AAmp));
+                                            write_answer("AdB", Math.round(AdB*1000)/1000);
+                                        } else {
+                                            write_answer("AAmp", "");
+                                            write_answer("AdB", "");
+                                            write_answer("KoefElp", "");
+                                            write_answer("Plrz", "");
+                                        }
+                                    } else {
+                                        AdB = 20*Math.log10(parseFloat(AAmp));
+                                        write_answer("AdB", Math.round(AdB*1000)/1000);
+                                    }
+                                    
+                                    
+                                } else if (parseFloat(AAmp) == 0 ){
+                                    write_answer("AdB", "");
+                                    
+                                } else {
+                                    write_answer("AAmp", "");
+                                    write_answer("AdB", "");
+                                }
+                                
+                                if ((!isNaN(parseFloat(Phi))) && (!isNaN(parseFloat(BAmp)))){
+                                    Phi2 = parseFloat(Phi)*Math.PI/180;
+                                    var AAmp2 = parseFloat(AAmp);
+                                    var BAmp2 = parseFloat(BAmp);
+                                    var temp =  AAmp2*AAmp2*AAmp2*AAmp2 + BAmp2*BAmp2*BAmp2*BAmp2 +2*AAmp2*AAmp2*BAmp2*BAmp2*Math.cos(2*Phi2);                            
+                                    var KoefElp = Math.sqrt( (AAmp2*AAmp2 + BAmp2*BAmp2 - Math.sqrt(temp))/ (AAmp2*AAmp2 + BAmp2*BAmp2 + Math.sqrt(temp)) );
+                                    var Plrz = 20 * Math.log10((1 + KoefElp) / (1 - KoefElp));
+                                    write_answer("KoefElp", Math.round(KoefElp*1000)/1000);
+                                    write_answer("Plrz", Math.round(Plrz*1000)/1000);
+                                } else{
+                                    write_answer("KoefElp", "");
+                                    write_answer("Plrz", "");
+                                }
+                            } else {
+                                if ((AAmp ===".") || (AAmp ===",") || (AAmp ==="0,")){
+                                    write_answer("AAmp", "0.");
+                                } else {
+                                    write_answer("AAmp", "");
+                                    write_answer("AdB", "");
+                                }
+                                
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="AdB">
+                    <p>&nbsp;дБ</p>
+                    <script>
+                        document.getElementById("AdB").addEventListener("input", myFunctionAdB);
+                        function myFunctionAdB() {
+                            AdB = readFloat("AdB");
+                            Phi = readFloat("Phi");
+                            BAmp = readFloat("BAmp");
+                            if (!isNaN(parseFloat(AdB))){
+                                
+                                if (parseFloat(AdB)<=0){
+                                    AAmp = Math.round(Math.pow(10, parseFloat(AdB) / 20)*1000)/1000;
+                                    if (!isNaN(parseFloat(BAmp))){
+                                        if (parseFloat(AAmp)*parseFloat(AAmp) + parseFloat(BAmp)*parseFloat(BAmp) <1) {
+                                            write_answer("AAmp", AAmp);
+                                        } else {
+                                            write_answer("AAmp", "");
+                                            write_answer("AdB", "");
+                                            write_answer("KoefElp", "");
+                                            write_answer("Plrz", "");
+                                        }
+                                    } else {
+                                        write_answer("AAmp", AAmp);
+                                    }
+                                    
+                                } else {
+                                    write_answer("AAmp", "");
+                                    write_answer("AdB", "");
+                                }
+                                
+                                if ((!isNaN(parseFloat(BAmp))) && (!isNaN(parseFloat(Phi)))){
+                                    Phi2 = parseFloat(Phi)*Math.PI/180;
+                                    var AAmp2 = parseFloat(AAmp);
+                                    var BAmp2 = parseFloat(BAmp);
+                                    var temp =  AAmp2*AAmp2*AAmp2*AAmp2 + BAmp2*BAmp2*BAmp2*BAmp2 +2*AAmp2*AAmp2*BAmp2*BAmp2*Math.cos(2*Phi2);                            
+                                    var KoefElp = Math.sqrt( (AAmp2*AAmp2 + BAmp2*BAmp2 - Math.sqrt(temp))/ (AAmp2*AAmp2 + BAmp2*BAmp2 + Math.sqrt(temp)) );
+                                    var Plrz = 20 * Math.log10((1 + KoefElp) / (1 - KoefElp));
+                                    write_answer("KoefElp", Math.round(KoefElp*1000)/1000);
+                                    write_answer("Plrz", Math.round(Plrz*1000)/1000);
+                                } else{
+                                    write_answer("KoefElp", "");
+                                    write_answer("Plrz", "");
+                                }
+                            } else {
+                                if (AdB ==="-") {
+                                    write_answer("AdB", "-");
+                                } else {
+                                    write_answer("AAmp", "");
+                                    write_answer("AdB", "");
+                                }
+                                
+                            }
+                        }
+                    </script>
+                </div>
+                
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">B</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BAmp">
+                    <script>
+                        document.getElementById("BAmp").addEventListener("input", myFunctionBAmp);
+                        function myFunctionBAmp() {
+                            BAmp = readFloat("BAmp");
+                            if (!isNaN(parseFloat(BAmp))){
+                                Phi = readFloat("Phi");
+                                AAmp = readFloat("AAmp");
+                                if ((parseFloat(BAmp)<=1) && (parseFloat(BAmp)>0)){
+                                    if (!isNaN(parseFloat(AAmp))){
+                                        if (parseFloat(AAmp)*parseFloat(AAmp) + parseFloat(BAmp)*parseFloat(BAmp) <1) {
+                                            BdB = 20*Math.log10(parseFloat(BAmp));
+                                            write_answer("BdB", Math.round(BdB*1000)/1000);
+                                        } else {
+                                            write_answer("BAmp", "");
+                                            write_answer("BdB", "");
+                                            write_answer("KoefElp", "");
+                                            write_answer("Plrz", "");
+                                        }
+                                    } else {
+                                        BdB = 20*Math.log10(parseFloat(BAmp));
+                                        write_answer("BdB", Math.round(BdB*1000)/1000);
+                                    }
+                                    
+                                } else if (parseFloat(BAmp) == 0 ){
+                                    write_answer("BdB", "");
+                                    
+                                } else {
+                                    write_answer("BAmp", "");
+                                    write_answer("BdB", "");
+                                }
+                                
+                                if ((!isNaN(parseFloat(AAmp))) && (!isNaN(parseFloat(Phi)))){
+                                    var Phi2 = parseFloat(Phi)*Math.PI/180;
+                                    var AAmp2 = parseFloat(AAmp);
+                                    var BAmp2 = parseFloat(BAmp);
+                                    var temp =  AAmp2*AAmp2*AAmp2*AAmp2 + BAmp2*BAmp2*BAmp2*BAmp2 +2*AAmp2*AAmp2*BAmp2*BAmp2*Math.cos(2*Phi2);                            
+                                    var KoefElp = Math.sqrt( (AAmp2*AAmp2 + BAmp2*BAmp2 - Math.sqrt(temp))/ (AAmp2*AAmp2 + BAmp2*BAmp2 + Math.sqrt(temp)) );
+                                    var Plrz = 20 * Math.log10((1 + KoefElp) / (1 - KoefElp));
+                                    write_answer("KoefElp", Math.round(KoefElp*1000)/1000);
+                                    write_answer("Plrz", Math.round(Plrz*1000)/1000);
+                                } else{
+                                    write_answer("KoefElp", "");
+                                    write_answer("Plrz", "");
+                                }
+                            } else {
+                                if ((BAmp ===".") || (BAmp ===",") || (BAmp ==="0,")){
+                                    write_answer("BAmp", "0.");
+                                } else {
+                                    write_answer("BAmp", "");
+                                    write_answer("BdB", "");
+                                }
+                                
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BdB">
+                    <p>&nbsp;дБ</p>
+                    <script>
+                        document.getElementById("BdB").addEventListener("input", myFunctionBdB);
+                        function myFunctionBdB() {
+                            BdB = readFloat("BdB");
+                            Phi = readFloat("Phi");
+                            AAmp = readFloat("AAmp");
+                            if (!isNaN(parseFloat(BdB))){
+                                if (parseFloat(BdB)<=0){
+                                    BAmp = Math.round(Math.pow(10, parseFloat(BdB) / 20)*1000)/1000;
+                                    if (!isNaN(parseFloat(AAmp))){
+                                        if (parseFloat(AAmp)*parseFloat(AAmp) + parseFloat(BAmp)*parseFloat(BAmp) <1) {
+                                            write_answer("BAmp", AAmp);
+                                        } else {
+                                            write_answer("BAmp", "");
+                                            write_answer("BdB", "");
+                                            write_answer("KoefElp", "");
+                                            write_answer("Plrz", "");
+                                        }
+                                    } else {
+                                        write_answer("BAmp", BAmp);
+                                    }
+                                    
+                                } else {
+                                    write_answer("BAmp", "");
+                                    write_answer("BdB", "");
+                                }
+                                
+                                if ((!isNaN(parseFloat(AAmp))) && (!isNaN(parseFloat(Phi)))){
+                                    var Phi2 = parseFloat(Phi)*Math.PI/180;
+                                    var AAmp2 = parseFloat(AAmp);
+                                    var BAmp2 = parseFloat(BAmp);
+                                    var temp =  AAmp2*AAmp2*AAmp2*AAmp2 + BAmp2*BAmp2*BAmp2*BAmp2 +2*AAmp2*AAmp2*BAmp2*BAmp2*Math.cos(2*Phi2);                            
+                                    var KoefElp = Math.sqrt( (AAmp2*AAmp2 + BAmp2*BAmp2 - Math.sqrt(temp))/ (AAmp2*AAmp2 + BAmp2*BAmp2 + Math.sqrt(temp)) );
+                                    var Plrz = 20 * Math.log10((1 + KoefElp) / (1 - KoefElp));
+                                    write_answer("KoefElp", Math.round(KoefElp*1000)/1000);
+                                    write_answer("Plrz", Math.round(Plrz*1000)/1000);
+                                } else{
+                                    write_answer("KoefElp", "");
+                                    write_answer("Plrz", "");
+                                }
+                            } else {
+                                if (BdB ==="-") {
+                                    write_answer("BdB", "-");
+                                } else {
+                                    write_answer("BAmp", "");
+                                    write_answer("BdB", "");
+                                }
+                                
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Phi</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="Phi">
+                    <p>&nbsp;&nbsp;&deg;</p>
+                    <script>
+                        document.getElementById("Phi").addEventListener("input", myFunctionPhi);
+                        function myFunctionPhi() {
+                            Phi = readFloat("Phi");
+                            if (!isNaN(parseFloat(Phi))){
+                                Phi2 = parseFloat(Phi)*Math.PI/180;
+                                AAmp = readFloat("AAmp");
+                                BAmp = readFloat("BAmp");
+                                if ((!isNaN(parseFloat(AAmp))) && (!isNaN(parseFloat(BAmp)))){
+                                    var AAmp2 = parseFloat(AAmp);
+                                    var BAmp2 = parseFloat(BAmp);
+                                    var temp =  AAmp2*AAmp2*AAmp2*AAmp2 + BAmp2*BAmp2*BAmp2*BAmp2 +2*AAmp2*AAmp2*BAmp2*BAmp2*Math.cos(2*Phi2);                            
+                                    var KoefElp = Math.sqrt( (AAmp2*AAmp2 + BAmp2*BAmp2 - Math.sqrt(temp))/ (AAmp2*AAmp2 + BAmp2*BAmp2 + Math.sqrt(temp)) );
+                                    var Plrz = 20 * Math.log10((1 + KoefElp) / (1 - KoefElp));
+                                    write_answer("KoefElp", Math.round(KoefElp*1000)/1000);
+                                    write_answer("Plrz", Math.round(Plrz*1000)/1000);
+                                } else{
+                                    write_answer("KoefElp", "");
+                                    write_answer("Plrz", "");
+                                }
+                            } else {
+                                write_answer("Phi", "");
+                                write_answer("KoefElp", "");
+                                write_answer("Plrz", "");
+                            }
+                        }
+                    </script>
+                </div>
+                <!-- <div class="title_field">
+                    <p class="text">&nbsp;&nbsp;&nbsp;</p>
+                </div> -->
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Коэффициент эллиптичности</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KoefElp">
+                    <script>
+                        document.getElementById("KoefElp").disabled = true;
+                    </script>
+                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Поляризационная развязка</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="Plrz">
+                    <script>
+                        document.getElementById("Plrz").disabled = true;
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

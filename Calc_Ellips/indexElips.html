@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Калькулятор Эллиптичности</title>
+    <script type="text/javascript">
+
+        var KoefElp = NaN;
+        var Plrz = NaN;
+        function readFloat(id) {
+            var new_var = document.getElementById(id).value.replace(',', '.');
+            return parseFloat(new_var);
+        }
+        function write_answer(id, text) {
+            document.getElementById(id).value = text;
+        }     
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            padding-top: 100px;
+            text-align: center;
+        }
+        
+        .container_header {
+            margin-bottom: 15px;
+            font-size: 28px;
+            line-height: 1.23;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: content-box;
+        }
+        
+        .content {
+            padding-top: 10px;
+            padding-left: 20%;
+            padding-right: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        
+        .card_button {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        /* div {
+            border: 1px solid rgb(0, 14, 3);
+        } */
+        
+        #button_calc {
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            letter-spacing: 0.04em;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #FFFFFF;
+            background: #000000;
+            box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+            padding: 10px 40px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        #button_refr {
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            letter-spacing: 0.04em;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #FFFFFF;
+            background: #000000;
+            box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+            padding: 10px 40px;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        
+        .text {
+            text-align: center;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            width: 150px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+        
+        .description {
+            text-align: left;
+            border-width: 0px 0px 1px 0px;
+            border-color: #000000;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 500;
+            color: #000;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+        
+        input {
+            text-align: center;
+            padding: 20px;
+            vertical-align: top;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            color: #000;
+            width: 100px;
+            font-size: 18px;
+            line-height: 1.45;
+        }
+        
+        .title_field {
+            display: flex;
+            align-items: center;
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+        
+        .input_field {
+            display: flex;
+            align-items: center;
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container_header">
+            <h1 class="header">Расчет Эллиптичности и поляризационной развязки</h1>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Коэффициент эллиптичности</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KoefElp">
+
+                    <script>
+                        document.getElementById("KoefElp").addEventListener("input", myFunction1);
+                        function myFunction1() {
+                            KoefElp = readFloat("KoefElp");
+                            if (!isNaN(KoefElp)){
+                                Plrz = Math.round(20 * Math.log10((1 + KoefElp) / (1 - KoefElp))*100000)/100000;
+                                write_answer("Plrz", Plrz);
+                            } else {
+                                write_answer("Plrz", "");
+                                write_answer("KoefElp", "");
+                            }
+                        }
+                    </script>
+
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Поляризационная развязка</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="Plrz">
+                    <script>
+                        document.getElementById("Plrz").addEventListener("input", myFunction2);
+                        function myFunction2() {
+                            Plrz = readFloat("Plrz");
+                            if (!isNaN(Plrz)){
+                                KoefElp = Math.round(( (1 - Math.pow(10, -Plrz / 20) ) / (1 + Math.pow(10, -Plrz / 20) ))*100)/100;
+                                write_answer("KoefElp", KoefElp);
+                            } else {
+                                write_answer("Plrz", "");
+                                write_answer("KoefElp", "");
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
