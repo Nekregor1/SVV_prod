@@ -1,0 +1,542 @@
+﻿<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Калькулятор ДН</title>
+
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script type="text/javascript">
+        
+        var ChoiceRaskruv = NaN;
+        var ChoiceAmpRasp = NaN;
+
+        function readFloat(id) {
+            var new_var = document.getElementById(id).value.replace(',', '.');
+            return new_var;
+        }
+
+        function write_answer(id, text) {
+            document.getElementById(id).value = text;
+        }
+
+        function clearing(id1, id2){
+            write_answer(id1, "");
+            write_answer(id2, "");
+            clearing_rez();
+        }
+
+        function clearing_rez() {
+            write_answer("BandMainLobe3dB", "");
+            write_answer("BandMainLobe0", "");
+            write_answer("KND_G0", "");
+            write_answer("KND_GAR", "");
+            write_answer("SLL", "");
+            write_answer("SideLobe", "");
+        }
+
+        function bigChoice (choice_Raskruv, choice_AmpRasp) {
+            lambda = readFloat("lambda");
+            dimAnt_mm = readFloat("DimAnt_mm");
+            DimAnt_lambda = parseFloat(dimAnt_mm) / parseFloat(lambda);
+            if (choice_Raskruv == 1){
+                if (choice_AmpRasp == 1){
+                    bandMainLobe3dB = 0.88 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (4 * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(1);
+                    ssl = -13.2;
+                    sideLobe = 82.3 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 2){
+                    bandMainLobe3dB = 1.02 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.22*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (4 * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.865);
+                    ssl = -17.6;
+                    sideLobe = 93.68 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 3){
+                    bandMainLobe3dB = 1.15 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.43*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (4 * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.833);
+                    ssl = -20.6;
+                    sideLobe = 105.14 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 4){
+                    bandMainLobe3dB = 1.36 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.84*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (4 * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.68);
+                    ssl = -28.6;
+                    sideLobe = 125.14 / DimAnt_lambda;
+                }
+            } else if (choice_Raskruv == 2) {
+                if (choice_AmpRasp == 1) {
+                    bandMainLobe3dB = 1.02 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.22*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (Math.PI * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(1);
+                    ssl = -17.6;
+                    sideLobe = 93.68 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 2){
+                    bandMainLobe3dB = 1.15 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.43*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (Math.PI * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.75);
+                    ssl = -20.6;
+                    sideLobe = 105.14 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 3){
+                    bandMainLobe3dB = 1.27 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 1.63*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (Math.PI * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.64);
+                    ssl = -24.6;
+                    sideLobe = 117.29 / DimAnt_lambda;
+                } else if (choice_AmpRasp == 4){
+                    bandMainLobe3dB = 1.47 * parseFloat(lambda) / parseFloat(dimAnt_mm)*180/Math.PI;
+                    bandMainLobe0 = 2 * Math.asin( 2.03*parseFloat(lambda) / parseFloat(dimAnt_mm))*180/Math.PI;
+                    knd_G0 = 10 * Math.log10 (Math.PI * Math.PI * DimAnt_lambda * DimAnt_lambda);
+                    knd_GAR = knd_G0 + 10 * Math.log10(0.55);
+                    ssl = -30.6;
+                    sideLobe = 140 / DimAnt_lambda;
+                }
+            }
+            if ((choice_Raskruv == 0) || (choice_AmpRasp == 0)){
+                clearing_rez()
+            } else {
+                write_answer("BandMainLobe3dB", Math.round(bandMainLobe3dB*1000)/1000);
+                write_answer("BandMainLobe0", Math.round(bandMainLobe0*1000)/1000);
+                write_answer("KND_G0", Math.round(knd_G0*1000)/1000);
+                write_answer("KND_GAR", Math.round(knd_GAR*1000)/1000);
+                write_answer("SLL", ssl);
+                write_answer("SideLobe", Math.round(sideLobe*1000)/1000);
+            }
+            
+        }
+
+        function OnSelectionChangeRaskruv(select) {
+            var selectedOption = select.options[select.selectedIndex];
+            idTypeRaskruv = selectedOption.value;
+
+            if (idTypeRaskruv == "Square") {
+                ChoiceRaskruv = 1;
+            } else if ((idTypeRaskruv == "Circle")) {
+                ChoiceRaskruv = 2;
+            }  else {
+                ChoiceRaskruv = 0;
+            }
+            if ((!isNaN(parseFloat(lambda)) && (!isNaN(parseFloat(dimAnt_mm)))) ){
+                bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+            }
+        }
+        
+        function OnSelectionChangeAmpRasp(select) {
+            var selectedOption = select.options[select.selectedIndex];
+            idAmpRasp = selectedOption.value;
+
+            if (idAmpRasp == "Const") {
+                ChoiceAmpRasp = 1;
+            } else if ((idAmpRasp == "Sqrt")) {
+                ChoiceAmpRasp = 2;
+            }  else if ((idAmpRasp == "Norm")) {
+                ChoiceAmpRasp = 3;
+            } else if ((idAmpRasp == "Square")) {
+                ChoiceAmpRasp = 4;
+            } else {
+                ChoiceAmpRasp = 0;
+            }
+            if ((!isNaN(parseFloat(lambda)) && (!isNaN(parseFloat(dimAnt_mm)))) ){
+                bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+            }
+        }
+        
+    </script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        padding-top: 50px;
+        text-align: center;
+    }
+    
+    .container_header {
+        margin-bottom: 15px;
+        font-size: 28px;
+        line-height: 1.23;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: content-box;
+    }
+    
+    .content {
+        padding-top: 10px;
+        padding-left: 20%;
+        padding-right: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .card {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+    }
+    
+    .card_button {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    /* div {
+        border: 1px solid rgb(0, 14, 3);
+    } */
+    
+    #button_calc {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    #button_refr {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .text {
+        text-align: center;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 160px;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+    
+    .description {
+        text-align: left;
+        border-width: 0px 0px 1px 0px;
+        border-color: #000000;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 500;
+        color: #000;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+    
+    input {
+        text-align: center;
+        padding: 20px;
+        vertical-align: top;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 100px;
+        font-size: 18px;
+        line-height: 1.45;
+    }
+    
+    .title_field {
+        display: flex;
+        align-items: center;
+        margin-left: 200px;
+        margin-right: 25px;
+    }
+    
+    .input_field {
+        display: flex;
+        align-items: center;
+        margin-left: 25px;
+        margin-right: 25px;
+        width: 160px;
+    }
+    
+    #Raskruv, #AmpRasp {
+        text-align: left;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 150px;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="container_header">
+            <h1 class="header">Расчет параметров<br> диаграммы направленности</h1>
+        </div>
+
+        <div class="content">
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text" >Тип раскрыва</p>
+                </div>
+                <div class="input_field">
+                    <select id="Raskruv" onchange="OnSelectionChangeRaskruv (this)">
+                        <option class="text" value="Vbr" >Выбрать тип раскрыва</option>
+                        <option class="text" value="Square">Квадратный</option>
+                        <option class="text" value="Circle">Круглый</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Вид амплитудного распределения (АР)</p>
+                </div>
+                <div class="input_field">
+                    <select id="AmpRasp" onchange="OnSelectionChangeAmpRasp (this)">
+                        <option class="text" value="Vbr">Выбрать АР</option>
+                        <option class="text" value="Const">Равномерное</option>
+                        <option class="text" value="Sqrt">Спадающее №1</option>
+                        <option class="text" value="Norm">Спадающее №2</option>
+                        <option class="text" value="Square">Спадающее №3</option>
+                    </select>
+                </div>
+            </div>            
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Рабочая частота /<br> Длина волны</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="Freq">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;ГГц </p>
+                    <script>
+                        document.getElementById("Freq").addEventListener("input", myFunctionFreq);
+                        function myFunctionFreq() {
+                            Freq = readFloat("Freq");
+                            dimAnt_mm = readFloat("DimAnt_mm");
+
+                            if (!isNaN(parseFloat(Freq))){
+                                lambda = 299.792458 / parseFloat(Freq);
+                                write_answer("lambda", Math.round(lambda*1000)/1000);
+                                if (!isNaN(parseFloat(dimAnt_mm))){
+                                    dalnZone = 2* parseFloat(dimAnt_mm) * parseFloat(dimAnt_mm) / lambda/1000;
+                                    write_answer("DalnZone", Math.round(dalnZone*1000)/1000);
+                                    bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+                                }
+                            } else {
+                                clearing("Freq", "lambda");                          
+                                }                                                            
+                        }
+                    </script>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="lambda">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;мм </p>
+                    <script>
+                        document.getElementById("lambda").addEventListener("input", myFunctionLambda);
+                        function myFunctionLambda() {
+                            lambda = readFloat("lambda");
+                            dimAnt_mm = readFloat("DimAnt_mm");
+
+                            if (!isNaN(parseFloat(lambda))){
+                                Freq = 299.792458 / parseFloat(lambda);
+                                write_answer("Freq", Math.round(Freq*1000)/1000);
+                                if (!isNaN(parseFloat(dimAnt_mm))){
+                                    dalnZone = 2* parseFloat(dimAnt_mm) * parseFloat(dimAnt_mm) / parseFloat(lambda)/1000;
+                                    write_answer("DalnZone", Math.round(dalnZone*1000)/1000);
+                                    bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+                                }
+                            } else {                                
+                                clearing("Freq", "lambda");
+                                }                                                            
+                        }
+                    </script>
+                </div>
+            </div>          
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Размер антенны </p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DimAnt_mm">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;мм </p>
+                    <script>
+                        document.getElementById("DimAnt_mm").addEventListener("input", myFunctionDimAnt_mm);
+                        function myFunctionDimAnt_mm() {
+                            dimAnt_mm = readFloat("DimAnt_mm");
+                            lambda = readFloat("lambda");
+
+                            if (!isNaN(parseFloat(dimAnt_mm))){
+                                if (!isNaN(parseFloat(lambda))) {
+                                    DimAnt_lambda = parseFloat(dimAnt_mm) / parseFloat(lambda);
+                                    write_answer("DimAnt_lambda", Math.round(DimAnt_lambda*1000)/1000);
+                                    dalnZone = 2* parseFloat(dimAnt_mm) * parseFloat(dimAnt_mm) / parseFloat(lambda)/1000;
+                                    write_answer("DalnZone", Math.round(dalnZone*1000)/1000);
+                                    bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+                                }
+                            } else {                                
+                                clearing("DimAnt_mm", "DimAnt_lambda");
+                                }                                                            
+                        }
+                    </script>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DimAnt_lambda">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;&#955; </p>
+                    <script>
+                        document.getElementById("DimAnt_lambda").addEventListener("input", myFunctionDimAnt_lambda);
+                        function myFunctionDimAnt_lambda() {
+                            dimAnt_lambda = readFloat("DimAnt_lambda");
+                            lambda = readFloat("lambda");
+
+                            if (!isNaN(parseFloat(dimAnt_lambda))){
+                                if (!isNaN(parseFloat(lambda))) {
+                                    DimAnt_mm = parseFloat(dimAnt_lambda) * parseFloat(lambda);
+                                    write_answer("DimAnt_mm", Math.round(DimAnt_mm*1000)/1000);
+                                    dalnZone = 2* DimAnt_mm * DimAnt_mm / parseFloat(lambda)/1000;
+                                    write_answer("DalnZone", Math.round(dalnZone*1000)/1000);
+                                    bigChoice(ChoiceRaskruv, ChoiceAmpRasp);
+                                }
+                            } else {                                
+                                clearing("DimAnt_mm", "DimAnt_lambda");
+                            }                                                            
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Дальняя зона</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DalnZone" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;м </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text"></p>
+                </div>
+                <div class="input_field">
+                    <p class="text">При равномерном АР</p>
+                </div>
+                <div class="input_field">
+                    <p class="text">При выбранном АР</p>
+                </div>                
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">КНД</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KND_G0" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;дБ </p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KND_GAR" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;дБ </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text"></p>
+                </div>
+                <div class="input_field">
+                    <p class="text">Ширина по половине мощности</p>
+                </div>
+                <div class="input_field">
+                    <p class="text">Ширина по нулям</p>
+                </div>                
+            </div>            
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Главный лепесток</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BandMainLobe3dB" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;&nbsp;&deg;</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BandMainLobe0" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;&nbsp;&deg;</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text"></p>
+                </div>
+                <div class="input_field">
+                    <p class="text">Уровень боковых лепестков</p>
+                </div>
+                <div class="input_field">
+                    <p class="text">Положение максимума бокового лепестка</p>
+                </div>                
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Боковой лепесток</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="SLL" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;дБ</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="SideLobe" disabled=false>
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;&nbsp;&deg;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

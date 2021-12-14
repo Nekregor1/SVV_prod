@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Калькулятор ДН</title>
+
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script type="text/javascript">
+        var T_20 = 20;
+        var L_20 = NaN;
+        var T = NaN;
+        var L = NaN;
+        var delta_L = NaN;
+        var TKLR = NaN;
+
+        function readFloat(id) {
+            var new_var = document.getElementById(id).value.replace(',', '.');
+            return parseFloat(new_var);
+        }
+
+        function write_answer(id, text) {
+            document.getElementById(id).value = text;
+            // document.getElementById(id).disabled = true;
+        }
+
+        function OnSelectionChange(select) {
+            var selectedOption = select.options[select.selectedIndex];
+            // alert("The selected option is " + selectedOption.value);
+            idMaterial = selectedOption.value;
+
+            if (idMaterial == "Pltln") {
+                TKLR = 230;
+            } else if ((idMaterial == "Apxd")) {
+                TKLR = 115;
+            } else if ((idMaterial == "Plstr")) {
+                TKLR = 70;
+            } else if ((idMaterial == "Ftrplst")) {
+                TKLR = 54;
+            } else if ((idMaterial == "AmG6")) {
+                TKLR = 24.7;
+            } else if ((idMaterial == "LS63")) {
+                TKLR = 20.5;
+            } else if ((idMaterial == "LS59")) {
+                TKLR = 19;
+            } else if ((idMaterial == "Ag")) {
+                TKLR = 19;
+            } else if ((idMaterial == "Brz")) {
+                TKLR = 18;
+            } else if ((idMaterial == "L96")) {
+                TKLR = 17;
+            } else if ((idMaterial == "CuM1")) {
+                TKLR = 16.7;
+            } else if ((idMaterial == "Cu")) {
+                TKLR = 16.61;
+            } else if ((idMaterial == "StX18H25C2")) {
+                TKLR = 14.2;
+            } else if ((idMaterial == "Au")) {
+                TKLR = 14;
+            } else if ((idMaterial == "D16")) {
+                TKLR = 12.9;
+            } else if ((idMaterial == "St50kp")) {
+                TKLR = 12;
+            } else if ((idMaterial == "St20kp")) {
+                TKLR = 11.16;
+            } else if ((idMaterial == "Al2O3")) {
+                TKLR = 8.4;
+            } else if ((idMaterial == "TtnBT1")) {
+                TKLR = 8.2;
+            } else if ((idMaterial == "Ttn")) {
+                TKLR = 8.09;
+            } else if ((idMaterial == "Kvr29HK")) {
+                TKLR = 5.5;
+            } else if ((idMaterial == "Kvr")) {
+                TKLR = 5;
+            } else if ((idMaterial == "MD40")) {
+                TKLR = 4.9;
+            } else if ((idMaterial == "SiC")) {
+                TKLR = 3.8;
+            } else if ((idMaterial == "Invr36H")) {
+                TKLR = 1.5;
+            } else if ((idMaterial == "Invr32NKD")) {
+                TKLR = 0.5;
+            } else {
+                TKLR = 0;
+            }
+
+            write_answer("TKLR", TKLR);
+
+            L_20 = readFloat("L_20");
+            T = readFloat("T");
+            if ((!isNaN(L_20)) && (!isNaN(T))) {
+                delta_L = Math.round(TKLR * (T - T_20) * L_20 / 1000000 * 1000) / 1000;
+                L = L_20 + delta_L;
+                write_answer("delta_L", delta_L);
+                write_answer("L", L);
+                // alert("The selected option is " + selectedOption.value);
+            } else {
+                write_answer("delta_L", "");
+                write_answer("L", "");
+                // alert("The selected option is " + selectedOption.value);
+            }
+
+        }
+    </script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        padding-top: 50px;
+        text-align: center;
+    }
+    
+    .container_header {
+        margin-bottom: 15px;
+        font-size: 28px;
+        line-height: 1.23;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: content-box;
+    }
+    
+    .content {
+        padding-top: 10px;
+        padding-left: 20%;
+        padding-right: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .card {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+    }
+    
+    .card_button {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    /* div {
+        border: 1px solid rgb(0, 14, 3);
+    } */
+    
+    #button_calc {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    #button_refr {
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        letter-spacing: 0.04em;
+        font-family: 'Roboto', Arial, sans-serif;
+        color: #FFFFFF;
+        background: #000000;
+        box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+        padding: 10px 40px;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    .text {
+        text-align: center;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 150px;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+    
+    .description {
+        text-align: left;
+        border-width: 0px 0px 1px 0px;
+        border-color: #000000;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 500;
+        color: #000;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+    
+    input {
+        text-align: center;
+        padding: 20px;
+        vertical-align: top;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 100px;
+        font-size: 18px;
+        line-height: 1.45;
+    }
+    
+    .title_field {
+        display: flex;
+        align-items: center;
+        margin-left: 200px;
+        margin-right: 25px;
+    }
+    
+    .input_field {
+        display: flex;
+        align-items: center;
+        margin-left: 25px;
+        margin-right: 25px;
+        width: 150px;
+    }
+    
+    #Raskruv, #AmpRasp {
+        text-align: left;
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 600;
+        color: #000;
+        width: 150px;
+        font-size: 14px;
+        line-height: 1.45;
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="container_header">
+            <h1 class="header">Расчет параметров<br> диаграммы направленности</h1>
+        </div>
+
+        <div class="content">
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text" >Тип раскрыва</p>
+                </div>
+                <div class="input_field">
+                    <select id="Raskruv" onchange="OnSelectionChange (this)">
+                        <option class="text" value="Vbr" >Выбрать тип раскрыва</option>
+                        <option class="text" value="Square">Прямоуголный</option>
+                        <option class="text" value="Circle">Круглый</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Вид амплитудного распределения</p>
+                </div>
+                <div class="input_field">
+                    <select id="AmpRasp" onchange="OnSelectionChange (this)">
+                        <option class="text" value="Vbr">Выбрать АР</option>
+                        <option class="text" value="Const">Равномерное</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Рабочая частота, [ГГц]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="Freq">
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Длина волны, [мм]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="lambda">
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Размер антенны </p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DimAnt_mm">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;мм </p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DimAnt_lambda">
+                    <p style="text-align: center; font-family: 'Roboto', Arial, sans-serif; font-weight: 600; color: #000;
+                    width: 150px; font-size: 14px; line-height: 1.45; ">&nbsp;&#955; </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">КНД, [дБ]<br>G0</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KND_G0" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">КНД, [дБ]<br>Амплитудное распределение</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="KND_GAR" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Уровень боковых лепестков, [дБ]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="SLL" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Дальняя зона, [м]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="DalnZone" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Ширина главного лепестка, [&nbsp;&nbsp;&deg;] <br> половины мощности</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BandMainLobe" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Ширина главного лепестка, [&nbsp;&nbsp;&deg;]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BandMainLobe" disabled=false>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="title_field">
+                    <p class="text">Положение бокового лепестка, [&nbsp;&nbsp;&deg;]</p>
+                </div>
+                <div class="input_field">
+                    <input type="field" id="BandMainLobe" disabled=false>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
