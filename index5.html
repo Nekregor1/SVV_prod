@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+
+
+
+<body>
+
+
+
+    <input type="field" id="text1">
+    <input type="field" id="text2">
+    <input type="field" id="result3">
+
+    <script>
+        document.getElementById("text1").addEventListener("input", myFunction1);
+
+        function myFunction1() {
+            var temp2 = document.getElementById("text2").value;
+            var temp1 = document.getElementById("text1").value;
+            var temp = (parseInt(temp1) + parseInt(temp2));
+            // alert(temp);
+            document.getElementById("result3").value = temp;
+        }
+
+        document.getElementById("text2").addEventListener("input", myFunction2);
+
+        function myFunction2() {
+            var temp2 = document.getElementById("text2").value;
+            var temp1 = document.getElementById("text1").value;
+            var temp = (parseInt(temp1) + parseInt(temp2));
+            // alert(temp);
+            document.getElementById("result3").value = temp;
+        }
+    </script>
+
+</body>
+
+</html>

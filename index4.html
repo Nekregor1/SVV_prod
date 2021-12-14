@@ -1,0 +1,15 @@
+<input type="text" id="text1"> oninput1: <span id="result1"></span>
+<input type="text" id="text2"> oninput2: <span id="result2"></span> oninput3:
+<span id="result3"></span>
+
+<script>
+    text1.oninput = function() {
+        var input1 = document.getElementById("text1").value;
+        document.getElementById('result1').innerHTML = input1;
+
+    };
+    text2.oninput = function() {
+        var input2 = document.getElementById("text2").value;
+        document.getElementById('result2').innerHTML = input2;
+    };
+</script>
