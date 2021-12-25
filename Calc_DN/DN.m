@@ -5,129 +5,131 @@ warning('off','all')
 
 lambda = 16;
 L = 150;
-% x = 0:0.1:50;
 theta = 0:0.0001:pi/2;
 u = pi*L*sin(theta)/lambda;
 
 %% Для квадратного раскрыва равномерного распределения
-lambda_05 = abs(sin(u)./u);
-lambda_05(1) = 1;
-lambda_05 = 20*log10(lambda_05);
-count_sq_const_3dB = WidthMainLobe(lambda_05, 1, -3);
-AngleMain_sq_const_3dB = 2*theta(count_sq_const_3dB)*180/pi;
-koef_sq_const_3dB_avrg = 50.8787;
-AngleMain_sq_const_3dB_avrg = koef_sq_const_3dB_avrg*lambda/L;
+SquareConst.DN = abs(sin(u)./u);
+SquareConst.DN(1) = 1;
+SquareConst.DN = 20*log10(SquareConst.DN);
+SquareConst.count_3dB = WidthMainLobe(SquareConst.DN, 1, -3);
+SquareConst.MainAngle_3dB = 2*theta(SquareConst.count_3dB)*180/pi;
+SquareConst.koef_3dB_avrg = 50.8787;
+SquareConst.MainAngle_3dB_avrg = SquareConst.koef_3dB_avrg * lambda /L;
 
-count_sq_const_0 = WidthMainLobe(lambda_05, 1, 0);
-AngleMain_sq_const_0 = 2*theta(count_sq_const_0)*180/pi;
-koef_sq_const_0_avrg = 114.7916;
-AngleMain_sq_const_0_avrg = koef_sq_const_0_avrg*lambda/L;
+SquareConst.count_0 = WidthMainLobe(SquareConst.DN, 1, 0);
+SquareConst.MainAngle_0 = 2*theta(SquareConst.count_0)*180/pi;
+SquareConst.koef_0_avrg = 114.7916;
+SquareConst.MainAngle_0_avrg = SquareConst.koef_0_avrg*lambda/L;
 
-count_sq_const_SL = SideLobe(lambda_05, count_sq_const_0+1);
-AngleSide_sq_const_SL = theta(count_sq_const_SL)*180/pi;
-koef_sq_const_SL = 82.30;
-AngleSide_sq_const_SL_avrg = koef_sq_const_SL*lambda/L;
-
+SquareConst.count_SL = SideLobe(SquareConst.DN, SquareConst.count_0 + 1);
+SquareConst.SL = theta(SquareConst.count_SL)*180/pi;
+SquareConst.koef_SL = 82.30;
+SquareConst.SL_avrg = SquareConst.koef_SL*lambda/L;
 
 %% Для квадратного раскрыва распределения sqrt(1-x2) и круглого раскрыва равномерного распределения
 
-lambda_1 = 2* abs(besselj(1, u))./u;
-lambda_1(1) = 1;
-lambda_1 = 20*log10(lambda_1);
-count_cir_const_3dB = WidthMainLobe(lambda_1, 1, -3);
-AngleMain_cir_const_3dB = 2*theta(count_cir_const_3dB)*180/pi;
-koef_cir_const_3dB_avrg = 58.4417;
-AngleMain_cir_const_3dB_avrg = koef_cir_const_3dB_avrg*lambda/L;
+SquareSqrt.DN = 2* abs(besselj(1, u))./u;
+SquareSqrt.DN(1) = 1;
+SquareSqrt.DN = 20*log10(SquareSqrt.DN);
+SquareSqrt.count_3dB = WidthMainLobe(SquareSqrt.DN, 1, -3);
+SquareSqrt.MainAngle_3dB = 2*theta(SquareSqrt.count_3dB)*180/pi;
+SquareSqrt.koef_3dB_avrg = 58.4417;
+SquareSqrt.MainAngle_3dB_avrg = SquareSqrt.koef_3dB_avrg * lambda /L;
 
-count_cir_const_0 = WidthMainLobe(lambda_1, 1, 0);
-AngleMain_cir_const_0 = 2*theta(count_cir_const_0)*180/pi;
-koef_cir_const_0_avrg = 1.22;
-AngleMain_cir_const_0_avrg = 2*asin(koef_cir_const_0_avrg*lambda/L)*180/pi;
+SquareSqrt.count_0 = WidthMainLobe(SquareSqrt.DN, 1, 0);
+SquareSqrt.MainAngle_0 = 2*theta(SquareSqrt.count_0)*180/pi;
+SquareSqrt.koef_0_avrg = 1.22;
+SquareSqrt.MainAngle_0_avrg =2*asin(SquareSqrt.koef_0_avrg*lambda/L)*180/pi;
 
-count_cir_const_SL = SideLobe(lambda_1, count_cir_const_0+1);
-AngleSide_cir_const_SL = theta(count_cir_const_SL)*180/pi;
-koef_cir_const_SL = 93.68;
-AngleSide_cir_const_SL_avrg = koef_cir_const_SL*lambda/L;
+SquareSqrt.count_SL = SideLobe(SquareSqrt.DN, SquareSqrt.count_0 + 1);
+SquareSqrt.SL = theta(SquareSqrt.count_SL)*180/pi;
+SquareSqrt.koef_SL = 93.68;
+SquareSqrt.SL_avrg = SquareSqrt.koef_SL*lambda/L;
+
+CircleConst = SquareSqrt;
 
 %% Для квадратного раскрыва распределения (1-x2) и круглого раскрыва распределения sqrt(1-x2)
 
-lambda_15 = abs(3./u./u .*(sin(u)./u - cos(u)));
-lambda_15(1) = 1;
-lambda_15 = 20*log10(lambda_15);
-count_sq_norm_3dB = WidthMainLobe(lambda_15, 1, -3);
-AngleMain_sq_norm_3dB = 2*theta(count_sq_norm_3dB)*180/pi;
-koef_sq_norm_3dB_avrg = 65.8901;
-AngleMain_sq_norm_3dB_avrg = koef_sq_norm_3dB_avrg*lambda/L;
+SquareNorm.DN = abs(3./u./u .*(sin(u)./u - cos(u)));
+SquareNorm.DN(1) = 1;
+SquareNorm.DN = 20*log10(SquareNorm.DN);
+SquareNorm.count_3dB = WidthMainLobe(SquareNorm.DN, 1, -3);
+SquareNorm.MainAngle_3dB = 2*theta(SquareNorm.count_3dB)*180/pi;
+SquareNorm.koef_3dB_avrg = 65.8901;
+SquareNorm.MainAngle_3dB_avrg = SquareNorm.koef_3dB_avrg * lambda /L;
 
-count_sq_norm_0 = WidthMainLobe(lambda_15, 1, 0);
-AngleMain_sq_norm_0 = 2*theta(count_sq_norm_0)*180/pi;
-koef_sq_norm_0_avrg = 1.43;
-AngleMain_sq_norm_0_avrg = 2*asin(koef_sq_norm_0_avrg*lambda/L)*180/pi;
+SquareNorm.count_0 = WidthMainLobe(SquareNorm.DN, 1, 0);
+SquareNorm.MainAngle_0 = 2*theta(SquareNorm.count_0)*180/pi;
+SquareNorm.koef_0_avrg = 1.43;
+SquareNorm.MainAngle_0_avrg =2*asin(SquareNorm.koef_0_avrg*lambda/L)*180/pi;
 
-count_sq_norm_SL = SideLobe(lambda_15, count_sq_norm_0+1);
-AngleSide_sq_norm_SL = theta(count_sq_norm_SL)*180/pi;
-koef_sq_norm_SL = 105.14;
-AngleSide_sq_norm_SL_avrg = koef_sq_norm_SL*lambda/L;
+SquareNorm.count_SL = SideLobe(SquareNorm.DN, SquareNorm.count_0 + 1);
+SquareNorm.SL = theta(SquareNorm.count_SL)*180/pi;
+SquareNorm.koef_SL = 105.14;
+SquareNorm.SL_avrg = SquareNorm.koef_SL*lambda/L;
+
+CircleSqrt = SquareNorm;
 
 %% Для круглого раскрыва распределения (1-x2)
 
-lambda_2 = 8*abs(besselj(2,u)./u./u);
-lambda_2(1) = 1;
-lambda_2 = 20*log10(lambda_2);
-count_cir_norm_3dB = WidthMainLobe(lambda_2, 1, -3);
-AngleMain_cir_norm_3dB = 2*theta(count_cir_norm_3dB)*180/pi;
-koef_cir_norm_3dB_avrg = 72.1927;
-AngleMain_cir_norm_3dB_avrg = koef_cir_norm_3dB_avrg*lambda/L;
+CircleNorm.DN = 8*abs(besselj(2,u)./u./u);
+CircleNorm.DN(1) = 1;
+CircleNorm.DN = 20*log10(CircleNorm.DN);
+CircleNorm.count_3dB = WidthMainLobe(CircleNorm.DN, 1, -3);
+CircleNorm.MainAngle_3dB = 2*theta(CircleNorm.count_3dB)*180/pi;
+CircleNorm.koef_3dB_avrg = 72.1927;
+CircleNorm.MainAngle_3dB_avrg = CircleNorm.koef_3dB_avrg * lambda /L;
 
-count_cir_norm_0 = WidthMainLobe(lambda_2, 1, 0);
-AngleMain_cir_norm_0 = 2*theta(count_cir_norm_0)*180/pi;
-koef_cir_norm_0_avrg = 1.63;
-AngleMain_cir_norm_0_avrg = 2*asin(koef_cir_norm_0_avrg*lambda/L)*180/pi;
+CircleNorm.count_0 = WidthMainLobe(CircleNorm.DN, 1, 0);
+CircleNorm.MainAngle_0 = 2*theta(CircleNorm.count_0)*180/pi;
+CircleNorm.koef_0_avrg = 1.63;
+CircleNorm.MainAngle_0_avrg =2*asin(CircleNorm.koef_0_avrg*lambda/L)*180/pi;
 
-count_cir_norm_SL = SideLobe(lambda_2, count_cir_norm_0+1);
-AngleSide_cir_norm_SL = theta(count_cir_norm_SL)*180/pi;
-koef_cir_norm_SL = 117.29;
-AngleSide_cir_norm_SL_avrg = koef_cir_norm_SL*lambda/L;
+CircleNorm.count_SL = SideLobe(CircleNorm.DN, CircleNorm.count_0 + 1);
+CircleNorm.SL = theta(CircleNorm.count_SL)*180/pi;
+CircleNorm.koef_SL = 117.29;
+CircleNorm.SL_avrg = CircleNorm.koef_SL*lambda/L;
 
 %% Для квадратного раскрыва распределения (1-x2)2
 
-lambda_25 = 15./u./u./u .*(3*sin(u)./u./u - 3*cos(u)./u - sin(u));
-lambda_25(1) = 1;
-lambda_25 = 20*log10(lambda_25/lambda_25(1));
-count_sq_sq_3dB = WidthMainLobe(lambda_25, 1, -3);
-AngleMain_sq_sq_3dB = 2*theta(count_sq_sq_3dB)*180/pi;
-koef_sq_sq_3dB_avrg = 78.1927;
-AngleMain_sq_sq_3dB_avrg = koef_sq_sq_3dB_avrg*lambda/L;
+SquareSquare.DN = 15./u./u./u .*(3*sin(u)./u./u - 3*cos(u)./u - sin(u));
+SquareSquare.DN(1) = 1;
+SquareSquare.DN = 20*log10(SquareSquare.DN);
+SquareSquare.count_3dB = WidthMainLobe(SquareSquare.DN, 1, -3);
+SquareSquare.MainAngle_3dB = 2*theta(SquareSquare.count_3dB)*180/pi;
+SquareSquare.koef_3dB_avrg = 78.1927;
+SquareSquare.MainAngle_3dB_avrg = SquareSquare.koef_3dB_avrg * lambda /L;
 
-count_sq_sq_0 = WidthMainLobe(lambda_25, 10, 0);
-AngleMain_sq_sq_0 = 2*theta(count_sq_sq_0)*180/pi;
-koef_sq_sq_0_avrg = 1.84;
-AngleMain_sq_sq_0_avrg = 2*asin(koef_sq_sq_0_avrg*lambda/L)*180/pi;
+SquareSquare.count_0 = WidthMainLobe(SquareSquare.DN, 10, 0);
+SquareSquare.MainAngle_0 = 2*theta(SquareSquare.count_0)*180/pi;
+SquareSquare.koef_0_avrg = 1.84;
+SquareSquare.MainAngle_0_avrg =2*asin(SquareSquare.koef_0_avrg*lambda/L)*180/pi;
 
-count_sq_sq_SL = SideLobe(lambda_25, count_sq_sq_0+1);
-AngleSide_sq_sq_SL = theta(count_sq_sq_SL)*180/pi;
-koef_sq_sq_SL = 125.14;
-AngleSide_sq_sq_SL_avrg = koef_sq_sq_SL*lambda/L;
+SquareSquare.count_SL = SideLobe(SquareSquare.DN, SquareSquare.count_0 + 1);
+SquareSquare.SL = theta(SquareSquare.count_SL)*180/pi;
+SquareSquare.koef_SL = 125.14;
+SquareSquare.SL_avrg = SquareSquare.koef_SL*lambda/L;
 
 %% Для круглого раскрыва распределения (1-x2)2
 
-lambda_3 = 48*abs(besselj(3,u)./u./u./u);
-lambda_3(1) = 1;
-lambda_3 = 20*log10(lambda_3);
-count_cir_sq_3dB = WidthMainLobe(lambda_3, 1, -3);
-AngleMain_cir_sq_3dB = 2*theta(count_cir_sq_3dB)*180/pi;
-koef_cir_sq_3dB_avrg = 84.7054;
-AngleMain_cir_sq_3dB_avrg = koef_cir_sq_3dB_avrg*lambda/L;
+CircleSquare.DN = 48*abs(besselj(3,u)./u./u./u);
+CircleSquare.DN(1) = 1;
+CircleSquare.DN = 20*log10(CircleSquare.DN);
+CircleSquare.count_3dB = WidthMainLobe(CircleSquare.DN, 1, -3);
+CircleSquare.MainAngle_3dB = 2*theta(CircleSquare.count_3dB)*180/pi;
+CircleSquare.koef_3dB_avrg = 84.7054;
+CircleSquare.MainAngle_3dB_avrg = CircleSquare.koef_3dB_avrg * lambda /L;
 
-count_cir_sq_0 = WidthMainLobe(lambda_3, 1, 0);
-AngleMain_cir_sq_0 = 2*theta(count_cir_sq_0)*180/pi;
-koef_cir_sq_0_avrg = 2.03;
-AngleMain_cir_sq_0_avrg = 2*asin(koef_cir_sq_0_avrg*lambda/L)*180/pi;
+CircleSquare.count_0 = WidthMainLobe(CircleSquare.DN, 1, 0);
+CircleSquare.MainAngle_0 = 2*theta(CircleSquare.count_0)*180/pi;
+CircleSquare.koef_0_avrg = 2.03;
+CircleSquare.MainAngle_0_avrg =2*asin(CircleSquare.koef_0_avrg*lambda/L)*180/pi;
 
-count_cir_sq_SL = SideLobe(lambda_3, count_cir_sq_0+1);
-AngleSide_cir_sq_SL = theta(count_cir_sq_SL)*180/pi;
-koef_cir_sq_SL = 140.0;
-AngleSide_cir_sq_SL_avrg = koef_cir_sq_SL*lambda/L;
+CircleSquare.count_SL = SideLobe(CircleSquare.DN, CircleSquare.count_0 + 1);
+CircleSquare.SL = theta(CircleSquare.count_SL)*180/pi;
+CircleSquare.koef_SL = 140.0;
+CircleSquare.SL_avrg = CircleSquare.koef_SL*lambda/L;
 
 %%
 level3dB = -3*ones(length(theta),1);
@@ -138,10 +140,10 @@ hold on
 grid on
 ylim([-80 0])
 plot(theta*180/pi, level3dB, 'c');
-plot(theta*180/pi, lambda_05, 'b');
-plot(theta*180/pi, lambda_1, 'r');
-plot(theta*180/pi, lambda_15, 'g');
-plot(theta*180/pi, lambda_25, 'y');
-plot(theta*180/pi, lambda_2, 'k');
-plot(theta*180/pi, lambda_3, 'm');
+plot(theta*180/pi, SquareConst.DN, 'b');
+plot(theta*180/pi, SquareSqrt.DN, 'r');
+plot(theta*180/pi, SquareNorm.DN, 'g');
+plot(theta*180/pi, SquareSquare.DN, 'y');
+plot(theta*180/pi, CircleNorm.DN, 'k');
+plot(theta*180/pi, CircleSquare.DN, 'm');
 
